@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { Cat } from "./cat.entity";
 import { Person } from "./person.entity";
 
 @Injectable()
 export class PersonsService {
 
-    listOfPersons = [
+    listOfPersons: Array<Person> = [
         {
             id: 11,
             name: "Game of Thrones",
@@ -43,5 +44,22 @@ export class PersonsService {
         this.listOfPersons.push(newPerson);
         return newPerson;
     }
-    
+
+    get(id: number): Person {
+        for (let person of this.listOfPersons) {
+            if (person.id == id) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    delete(id: number) {
+
+    }
+
+    update(id: number, updatedData: Person) {
+
+    }
+
 }

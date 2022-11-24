@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
-import { Cat } from "./cat.entity";
 import { Person } from "./person.entity";
 import { PersonsService } from "./persons.service";
 
@@ -26,7 +25,8 @@ export class PersonsController {
     }
 
     @Get(':id')
-    getOne(@Param('id') id: number) {
+    getOne(@Param('id') id: number): Person {
+        return this.personsService.get(id);
     }
 
     @Delete(':id')
