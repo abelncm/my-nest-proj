@@ -28,8 +28,12 @@ export class FilemanagerService {
     return `This action returns a #${id} filemanager`;
   }
 
-  update(id: number, updateFilemanagerDto: UpdateFilemanagerDto) {
-    return `This action updates a #${id} filemanager`;
+  update(filename: string, content: string) {
+    const filePath = `resources/${filename}.txt`;
+
+    fileAccess.writeFileSync(filePath, content);
+
+    return filename+'.txt';
   }
 
   remove(id: number) {
