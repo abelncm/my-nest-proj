@@ -9,7 +9,7 @@ export class FilemanagerController {
   constructor(private readonly filemanagerService: FilemanagerService) {}
 
   @Post()
-  create(@Body() createFilemanagerDto: CreateFilemanagerDto) {
+  create(@Body() createFilemanagerDto: CreateFilemanagerDto): ApiResponse  {
     const fileName = this.filemanagerService.create(createFilemanagerDto.name);
     return new ApiResponse(`File ${fileName} created successfully!`);
   }

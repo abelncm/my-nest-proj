@@ -6,7 +6,7 @@ import * as fileAccess from 'fs';
 @Injectable()
 export class FilemanagerService {
   
-  create(name: string) {
+  create(name: string): string {
     
     const filePath = `resources/${name}.txt`;
     const content = 'Sextou!!';
