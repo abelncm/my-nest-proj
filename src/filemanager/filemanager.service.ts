@@ -2,14 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CreateFilemanagerDto } from './dto/create-filemanager.dto';
 import { UpdateFilemanagerDto } from './dto/update-filemanager.dto';
 import * as fileAccess from 'fs';
+import { FileException } from './exceptions/file.exception';
 
 @Injectable()
 export class FilemanagerService {
   
-  create(name: string): string {
+  create(name: string, content:string): string {
     
     const filePath = `resources/${name}.txt`;
-    const content = 'Sextou!!';
+
+    if(fileAccess.existsSync(filePath))
+      throw new FileException(`File with the name ${name} already exists!`);
 
     fileAccess.writeFileSync(filePath, content);
 

@@ -10,7 +10,7 @@ export class FilemanagerController {
 
   @Post()
   create(@Body() createFilemanagerDto: CreateFilemanagerDto): ApiResponse  {
-    const fileName = this.filemanagerService.create(createFilemanagerDto.name);
+    const fileName = this.filemanagerService.create(createFilemanagerDto.name, createFilemanagerDto.content);
     return new ApiResponse(`File ${fileName} created successfully!`);
   }
 
