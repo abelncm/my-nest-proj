@@ -23,7 +23,7 @@ export class PersonsController {
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() updatedData: Person) {
+    update(@Param('id') id: number, @Body() updatePersonDto: PersonDto) {
     }
 
     @Get(':id')

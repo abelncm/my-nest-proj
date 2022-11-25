@@ -11,4 +11,12 @@ export class Person {
         this.name=name;
         this.phone=phone;
     }
+
+    getName(): string {
+        return this.name;
+    }
+
+    getPhone(): string {
+        return this.phone;
+    }
 }

@@ -5,13 +5,13 @@ import { Person } from "./person.entity";
 @Injectable()
 export class PersonService {
 
-    listOfPersons: Array<Person> = [
+    listOfPersons: Array<Person> = new Array(
         new Person(11, 'Game of Thrones 1', 42345324),
         new Person(12, 'Game of Thrones 2', 42345324),
         new Person(13, 'Game of Thrones 3', 42345324),
         new Person(14, 'Game of Thrones 4', 42345324),
         new Person(15, 'Game of Thrones 5', 42345324),
-    ];
+    );
 
     generateId() {
         let lastPerson = this.listOfPersons[this.listOfPersons.length - 1];
@@ -24,7 +24,7 @@ export class PersonService {
 
     add(name: string, phone:number): Person {
         
-        const id = this.generateId()
+        const id = this.generateId();
         const newPerson = new Person(id, name, phone);
 
         this.listOfPersons.push(newPerson);
