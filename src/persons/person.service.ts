@@ -3,29 +3,14 @@ import { Cat } from "./cat.entity";
 import { Person } from "./person.entity";
 
 @Injectable()
-export class PersonsService {
+export class PersonService {
 
     listOfPersons: Array<Person> = [
-        {
-            id: 11,
-            name: "Game of Thrones",
-            phone: 5802943
-        },
-        {
-            id: 12,
-            name: "Alvinho",
-            phone: 5638290
-        },
-        {
-            id: 13,
-            name: "Vera",
-            phone: 5638290
-        },
-        {
-            id: 14,
-            name: "Domingo",
-            phone: 8987344
-        }
+        new Person(11, 'Game of Thrones 1', 42345324),
+        new Person(12, 'Game of Thrones 2', 42345324),
+        new Person(13, 'Game of Thrones 3', 42345324),
+        new Person(14, 'Game of Thrones 4', 42345324),
+        new Person(15, 'Game of Thrones 5', 42345324),
     ];
 
     generateId() {
@@ -34,13 +19,14 @@ export class PersonsService {
     }
 
     getAll(): Array<Person> {
-
         return this.listOfPersons;
-
     }
 
-    add(newPerson: Person): Person {
-        newPerson.id = this.generateId();
+    add(name: string, phone:number): Person {
+        
+        const id = this.generateId()
+        const newPerson = new Person(id, name, phone);
+
         this.listOfPersons.push(newPerson);
         return newPerson;
     }

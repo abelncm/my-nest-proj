@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Query, UseInterceptors } from "@nestjs/common";
+import { PersonDto } from "./dtos/person.dto";
 import { Person } from "./person.entity";
-import { PersonsService } from "./persons.service";
+import { PersonService } from "./person.service";
 
 
 @Controller('persons')
 export class PersonsController {
 
-    constructor(private readonly personsService: PersonsService) { }
+    constructor(private readonly personsService: PersonService) { }
 
 
     @Get()
@@ -15,9 +16,10 @@ export class PersonsController {
     }
 
     @Post()
-    create(@Body() newPerson: Person): Person {
-        console.log(newPerson);
-        return this.personsService.add(newPerson);
+    create(@Body() createPersonDto: PersonDto): Person {
+        console.log(createPersonDto);
+
+        return this.personsService.add(createPersonDto.name, createPersonDto.phone);
     }
 
     @Put(':id')
