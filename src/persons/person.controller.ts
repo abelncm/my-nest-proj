@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { PersonDto } from "./dtos/person.dto";
 import { Person } from "./person.entity";
 import { PersonService } from "./person.service";
@@ -18,7 +18,6 @@ export class PersonsController {
     @Post()
     create(@Body() createPersonDto: PersonDto): Person {
         console.log(createPersonDto);
-
         return this.personsService.add(createPersonDto.name, createPersonDto.phone);
     }
 
