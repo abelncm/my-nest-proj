@@ -15,7 +15,7 @@ export class PersonService {
 
     generateId() {
         let lastPerson = this.listOfPersons[this.listOfPersons.length - 1];
-        return lastPerson.id + 1;
+        return lastPerson.getId() + 1;
     }
 
     getAll(): Array<Person> {
@@ -33,7 +33,7 @@ export class PersonService {
 
     get(id: number): Person {
         for (let person of this.listOfPersons) {
-            if (person.id == id) {
+            if (person.getId() == id) {
                 return person;
             }
         }
