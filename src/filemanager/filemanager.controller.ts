@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FilemanagerService } from './filemanager.service';
 import { CreateFilemanagerDto } from './dto/create-filemanager.dto';
 import { UpdateFilemanagerDto } from './dto/update-filemanager.dto';
-import { ApiResponse } from 'src/common/response.dto';
+import { ApiResponse } from 'src/common/response/response.model';
 
 @Controller('files')
 export class FilemanagerController {
