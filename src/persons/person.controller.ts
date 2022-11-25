@@ -12,7 +12,7 @@ export class PersonsController {
 
     @Get()
     getAll(@Query('name') searchName: string): Array<Person> {
-        return this.personsService.getAll();
+        return this.personsService.getAll(searchName);
     }
 
     @Post()

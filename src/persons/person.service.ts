@@ -19,7 +19,19 @@ export class PersonService {
         return lastPerson.getId() + 1;
     }
 
-    getAll(): Array<Person> {
+    getAll(searchName: string): Array<Person> {
+        if (searchName != null) {
+            let result = [];
+    
+            for (let person of this.listOfPersons) {
+                if (person.getName() == searchName) {
+                    result.push(person);
+                }
+            }
+    
+            return result;
+        }
+        
         return this.listOfPersons;
     }
 
