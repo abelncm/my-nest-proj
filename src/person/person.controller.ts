@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
-import { PersonDto } from "./dtos/person.dto";
+import { PersonDto } from "./dto/person.dto";
 import { Person } from "./person.entity";
 import { PersonService } from "./person.service";
 
