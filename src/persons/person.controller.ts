@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
 import { PersonDto } from "./dtos/person.dto";
 import { Person } from "./person.entity";
 import { PersonService } from "./person.service";
@@ -33,6 +33,7 @@ export class PersonsController {
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: number): void {
+        this.personsService.delete(id);
     }
 }

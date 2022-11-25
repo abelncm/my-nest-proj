@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { NotFoundException } from "src/config/not-found.exception";
 import { Cat } from "./cat.entity";
 import { Person } from "./person.entity";
 
@@ -37,11 +38,23 @@ export class PersonService {
                 return person;
             }
         }
-        return null;
+        throw new NotFoundException(`Person with id ${id} not found!`);
+
     }
 
-    delete(id: number) {
+    delete(id: number): void {
+        
+        for(let pos:number=0; pos<this.listOfPersons.length; pos++) {
 
+            let person = this.listOfPersons[pos];
+
+            if (person.getId() == id) {
+                this.listOfPersons.splice(pos, 1);
+                return;
+            }
+        }
+        
+        throw new NotFoundException(`Person with id ${id} not found!`);
     }
 
     update(id: number, name: string, phone: number): Person {
@@ -54,7 +67,7 @@ export class PersonService {
             }
         }
 
-        return null;
+        throw new NotFoundException(`Person with id ${id} not found!`);
     }
 
 }
