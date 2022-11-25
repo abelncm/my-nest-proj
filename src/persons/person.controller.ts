@@ -23,7 +23,8 @@ export class PersonsController {
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() updatePersonDto: PersonDto) {
+    update(@Param('id') id: number, @Body() updatePersonDto: PersonDto): Person {
+        return this.personsService.update(id, updatePersonDto.name, updatePersonDto.phone);
     }
 
     @Get(':id')

@@ -12,11 +12,23 @@ export class Person {
         this.phone=phone;
     }
 
+    getId(): number {
+        return this.id;
+    }
+
     getName(): string {
         return this.name;
     }
 
-    getPhone(): string {
+    getPhone(): number {
         return this.phone;
+    }
+
+    changeName(name: string): void {
+        this.name = name;
+    }
+
+    changePhoneNumber(newPhoneNumber: number): void {
+        this.phone = newPhoneNumber;
     }
 }

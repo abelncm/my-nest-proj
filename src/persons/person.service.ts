@@ -44,8 +44,17 @@ export class PersonService {
 
     }
 
-    update(id: number, updatedData: Person) {
+    update(id: number, name: string, phone: number): Person {
 
+        for (let person of this.listOfPersons) {
+            if (id == person.getId()) {
+                person.changeName(name);
+                person.changePhoneNumber(phone);
+                return person;
+            }
+        }
+
+        return null;
     }
 
 }
