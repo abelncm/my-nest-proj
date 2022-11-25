@@ -2,9 +2,9 @@
 
 export class Person {
 
-    id: number;
-    name: string;
-    phone: number;
+    private id: number;
+    private name: string;
+    private phone: number;
 
     constructor(id:number, name:string, phone:number) {
         this.id=id;
