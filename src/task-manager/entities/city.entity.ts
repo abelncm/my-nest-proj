@@ -14,4 +14,8 @@ export class City {
     @OneToMany(() => Person, (person) => person.city)
     people: Array<Person>
 
+    constructor(name: string) {
+        this.name=name;
+    }
+
 }

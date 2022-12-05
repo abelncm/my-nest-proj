@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TaskManagerService } from './task-manager.service';
-import { TaskManagerController } from './task-manager.controller';
+import { CityService } from './city.service';
+import { CityController } from './city.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Person } from './entities/person.entity';
 import { City } from './entities/city.entity';
@@ -16,7 +16,7 @@ import { PersonHasTask } from './entities/person-has-task.entity';
     Task,
     PersonHasTask
   ])],
-  controllers: [TaskManagerController],
-  providers: [TaskManagerService]
+  controllers: [CityController],
+  providers: [CityService]
 })
 export class TaskManagerModule {}
