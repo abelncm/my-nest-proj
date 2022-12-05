@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { TaskManagerService } from './task-manager.service';
 import { TaskManagerController } from './task-manager.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contact } from './entities/contact.entity';
+import { Person } from './entities/person.entity';
+import { City } from './entities/city.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Contact])],
+  imports: [TypeOrmModule.forFeature([City,Person])],
   controllers: [TaskManagerController],
   providers: [TaskManagerService]
 })

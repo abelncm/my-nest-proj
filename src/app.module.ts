@@ -16,7 +16,7 @@ import { DataSource } from 'typeorm';
       port: 3306,
       username: 'root',
       password: 'nemo',
-      database: 'tasks',
+      database: 'nest_tasks',
       autoLoadEntities: true,
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy()
