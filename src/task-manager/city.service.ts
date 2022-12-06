@@ -10,10 +10,10 @@ export class CityService {
   constructor(
     @InjectRepository(City)
     private cityRepository: Repository<City>
-  ) {}
+  ) { }
 
   create(createCityDto: CityDto) {
-    const newCity = new City(createCityDto.name);
+    const newCity = new City(createCityDto.getName());
     return this.cityRepository.save(newCity);
   }
 
@@ -22,14 +22,23 @@ export class CityService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} taskManager`;
+    return this.cityRepository.findOne({
+      where: {
+        id: id,
+      }
+    });
   }
 
-  update(id: number, updateTaskManagerDto) {
-    return `This action updates a #${id} taskManager`;
+  async update(id: number, updateCityDto: CityDto) {
+
+    const city: City = await this.findOne(id);
+    
+    city.updateName(updateCityDto.getName())
+
+    return this.cityRepository.save(city);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} taskManager`;
+    this.cityRepository.delete(id);
   }
 }

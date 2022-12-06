@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CityDto } from './dto/city.dto';
 
@@ -16,18 +16,18 @@ export class CityController {
     return this.cityService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.cityService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.cityService.findOne(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateTaskManagerDto: UpdateTaskManagerDto) {
-  //   return this.cityService.update(+id, updateTaskManagerDto);
-  // }
+  @Put(':id')
+  update(@Param('id') id: number, @Body() updateCityDto: CityDto) {
+    return this.cityService.update(id, updateCityDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.cityService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.cityService.remove(id);
+  }
 }

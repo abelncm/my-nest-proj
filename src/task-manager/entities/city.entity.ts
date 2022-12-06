@@ -18,4 +18,8 @@ export class City {
         this.name=name;
     }
 
+    updateName(name:string) {
+        this.name=name;
+    }
+
 }

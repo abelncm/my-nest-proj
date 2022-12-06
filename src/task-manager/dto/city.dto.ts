@@ -3,6 +3,10 @@ import { IsString } from "class-validator";
 export class CityDto {
 
     @IsString()
-    name: string;
+    private name: string;
 
+    getName() {
+        return this.name;
+    }
+    
 }
