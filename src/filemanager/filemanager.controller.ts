@@ -3,7 +3,9 @@ import { FilemanagerService } from './filemanager.service';
 import { CreateFilemanagerDto } from './dto/create-filemanager.dto';
 import { UpdateFilemanagerDto } from './dto/update-filemanager.dto';
 import { ApiResponse } from 'src/common/response/response.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('File')
 @Controller('files')
 export class FilemanagerController {
   constructor(private readonly filemanagerService: FilemanagerService) { }

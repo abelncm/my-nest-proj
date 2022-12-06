@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person.entity";
 
@@ -5,12 +6,15 @@ import { Person } from "./person.entity";
 @Entity()
 export class City {
 
+    @ApiProperty()
     @PrimaryGeneratedColumn()
     id: number;
-
+    
+    @ApiProperty()
     @Column()
     name: string;
     
+    @ApiProperty()
     @OneToMany(() => Person, (person) => person.city)
     people: Array<Person>
 

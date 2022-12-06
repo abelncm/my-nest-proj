@@ -23,7 +23,6 @@ async function bootstrap() {
     .setTitle('My Nest Proj API')
     .setDescription('Sintaxy Academy\' first web service')
     .setVersion('1.0')
-    .addTag('my-nest-proj')
     .build();
   
   const document = SwaggerModule.createDocument(app, config);

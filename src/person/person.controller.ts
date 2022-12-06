@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { PersonDto } from "./dto/person.dto";
 import { Person } from "./person.entity";
 import { PersonService } from "./person.service";
 
-
+@ApiTags('Person')
 @Controller('persons')
 export class PersonsController {
 

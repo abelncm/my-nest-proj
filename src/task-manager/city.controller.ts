@@ -1,13 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CityService } from './city.service';
 import { CityDto } from './dto/city.dto';
+import { City } from './entities/city.entity';
 
-@ApiTags('Cities')
+@ApiTags('City')
 @Controller('cities')
 export class CityController {
-  constructor(private readonly cityService: CityService) {}
+  constructor(private readonly cityService: CityService) { }
 
   @Post()
   create(@Body() createCityDto: CityDto) {
@@ -19,6 +20,7 @@ export class CityController {
     return this.cityService.findAll(query);
   }
 
+  @ApiResponse({type: City})
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.cityService.findOne(id);

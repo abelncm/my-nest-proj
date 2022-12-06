@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { NotFoundException } from "src/common/exceptions/not-found.exception";
-import { Cat } from "./cat.entity";
 import { Person } from "./person.entity";
 
 @Injectable()

@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PersonsModule } from './person/person.module';
-import { FilemanagerModule } from './filemanager/filemanager.module';
-import { TaskManagerModule } from './task-manager/task-manager.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { DataSource } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { AppController } from './app.controller';
+import { FilemanagerModule } from './filemanager/filemanager.module';
+import { PersonsModule } from './person/person.module';
+import { TaskManagerModule } from './task-manager/task-manager.module';
 
 @Module({
   imports: [
@@ -26,7 +25,7 @@ import { DataSource } from 'typeorm';
     TaskManagerModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
