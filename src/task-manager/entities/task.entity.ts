@@ -14,4 +14,13 @@ export class Task {
     @OneToMany(()=>PersonHasTask, (personTask)=>personTask.task)
     people: Array<PersonHasTask>;
 
+
+    constructor(title:string) {
+        this.title=title;
+    }
+
+    updateTask(title:string) {
+        this.title=title;
+    }
+
 }

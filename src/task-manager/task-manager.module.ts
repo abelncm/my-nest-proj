@@ -7,6 +7,8 @@ import { City } from './entities/city.entity';
 import { ParentalRelationship } from './entities/parental-relationship.entity';
 import { Task } from './entities/task.entity';
 import { PersonHasTask } from './entities/person-has-task.entity';
+import { TaskController } from './task.controller';
+import { TaskService } from './task.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -16,7 +18,7 @@ import { PersonHasTask } from './entities/person-has-task.entity';
     Task,
     PersonHasTask
   ])],
-  controllers: [CityController],
-  providers: [CityService]
+  controllers: [CityController, TaskController],
+  providers: [CityService, TaskService]
 })
 export class TaskManagerModule {}

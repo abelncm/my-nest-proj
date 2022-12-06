@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CityService } from './city.service';
 import { CityDto } from './dto/city.dto';
 
+@ApiTags('Cities')
 @Controller('cities')
 export class CityController {
   constructor(private readonly cityService: CityService) {}

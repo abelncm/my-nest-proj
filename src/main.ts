@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './config/http-exception.filter';
 
@@ -17,6 +18,16 @@ async function bootstrap() {
       forbidNonWhitelisted: true
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('My Nest Proj API')
+    .setDescription('Sintaxy Academy\' first web service')
+    .setVersion('1.0')
+    .addTag('my-nest-proj')
+    .build();
+  
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(5000);
 }
