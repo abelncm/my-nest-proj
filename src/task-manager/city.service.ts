@@ -24,11 +24,7 @@ export class CityService {
   }
 
   findOne(id: number) {
-    return this.cityRepository.findOne({
-      where: {
-        id: id,
-      }
-    });
+    return this.cityRepository.findOneBy({id: id});
   }
 
   async update(id: number, updateCityDto: CityDto) {
