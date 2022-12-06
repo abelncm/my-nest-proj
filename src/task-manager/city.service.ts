@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
+import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
 import { CityDto } from './dto/city.dto';
 import { City } from './entities/city.entity';
@@ -17,8 +19,8 @@ export class CityService {
     return this.cityRepository.save(newCity);
   }
 
-  findAll() {
-    return this.cityRepository.find();
+  findAll(query: PaginateQuery) {
+    return paginate(query, this.cityRepository, paginateDefaults);
   }
 
   findOne(id: number) {

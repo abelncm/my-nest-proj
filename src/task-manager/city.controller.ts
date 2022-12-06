@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CityService } from './city.service';
 import { CityDto } from './dto/city.dto';
 
@@ -12,8 +13,8 @@ export class CityController {
   }
 
   @Get()
-  findAll() {
-    return this.cityService.findAll();
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.cityService.findAll(query);
   }
 
   @Get(':id')
