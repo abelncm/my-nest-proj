@@ -8,28 +8,61 @@ import { PersonHasTask } from "./person-has-task.entity";
 export class Person {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
 
     @Column()
-    firstName: string;   
+    private firstName: string;
 
     @Column()
-    lastName: string;
+    private lastName: string;
 
     @Column()
-    phone: string;
+    private phone: string;
     
-    @ManyToOne(() => City, (city) => city.people, { nullable: false })
-    city: City;
+    @ManyToOne(() => City, (city) => city.getPeople, { nullable: false, eager:true })
+    private city: City;
 
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.parent)
-    parents: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.getParent)
+    private parents: Array<ParentalRelationship>;
     
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.child)
-    children: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.getChild)
+    private children: Array<ParentalRelationship>;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.person)
-    tasks: Array<PersonHasTask>;
+    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.getPerson)
+    private tasks: Array<PersonHasTask>;
 
+    constructor(firstName:string, lastName:string, phone:string, city:City) {
+        this.updateName(firstName, lastName);
+        this.updatePhone(phone);
+        this.movedToCity(city);
+    }
 
+    getCity() {
+        return this.city;
+    }
+
+    getTasks() {
+        return this.tasks;
+    }
+
+    getParents() {
+        return this.parents;
+    }
+
+    getChildren() {
+        return this.children;
+    }
+    
+    updateName(firstName:string, lastName:string){
+        this.firstName=firstName;
+        this.lastName=lastName;
+    }
+
+    updatePhone(phone:string) {
+        this.phone=phone;
+    }
+
+    movedToCity(city: City) {
+        this.city=city;
+    }
 }

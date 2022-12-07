@@ -20,7 +20,6 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy()
     }),
-    PersonsModule,
     FilemanagerModule, 
     TaskManagerModule
   ],

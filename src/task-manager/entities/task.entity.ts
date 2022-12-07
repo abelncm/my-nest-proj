@@ -6,13 +6,13 @@ import { PersonHasTask } from "./person-has-task.entity";
 export class Task {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
 
     @Column()
-    title: string;
+    private title: string;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.task)
-    people: Array<PersonHasTask>;
+    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.getTask)
+    private people: Array<PersonHasTask>;
 
 
     constructor(title:string) {
@@ -23,4 +23,5 @@ export class Task {
         this.title=title;
     }
 
+    getPeople(){return this.people}
 }

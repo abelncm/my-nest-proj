@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
-import { CityDto } from './dto/city.dto';
-import { City } from './entities/city.entity';
+import { CityDto } from '../dto/city.dto';
+import { City } from '../entities/city.entity';
+import { NotFoundException } from '../exceptions/not-found.exception';
 
 @Injectable()
 export class CityService {
@@ -23,15 +24,20 @@ export class CityService {
     return paginate(query, this.cityRepository, paginateDefaults);
   }
 
-  findOne(id: number) {
-    return this.cityRepository.findOneBy({id: id});
+  async findOne(id: number) {
+    const city = await this.cityRepository.findOneBy(<any>{ id: id });
+
+    if (!city)
+      throw new NotFoundException(`City with id ${id} not found!`);
+
+    return city;
   }
 
   async update(id: number, updateCityDto: CityDto) {
 
     const city: City = await this.findOne(id);
-    
-    city.updateName(updateCityDto.getName())
+
+    city.updateName(updateCityDto.getName());
 
     return this.cityRepository.save(city);
   }

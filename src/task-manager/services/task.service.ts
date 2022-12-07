@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
-import { TaskDto } from './dto/task.dto';
-import { Task } from './entities/task.entity';
+import { TaskDto } from '../dto/task.dto';
+import { Task } from '../entities/task.entity';
 
 @Injectable()
 export class TaskService {
@@ -24,7 +24,7 @@ export class TaskService {
   }
 
   findOne(id: number) {
-    return this.taskRepository.findOneBy({id: id});
+    return this.taskRepository.findOneBy(<any>{id: id});
   }
 
   async update(id: number, updateTaskDto: TaskDto) {

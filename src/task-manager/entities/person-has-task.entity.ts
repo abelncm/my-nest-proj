@@ -6,15 +6,17 @@ import { Task } from "./task.entity";
 export class PersonHasTask {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
 
-    @ManyToOne(()=>Task, (task)=>task.people, { nullable: false })
-    task: Task;
+    @ManyToOne(()=>Task, (task)=>task.getPeople, { nullable: false })
+    private task: Task;
     
-    @ManyToOne(()=>Person, (person)=>person.tasks, { nullable: false })
-    person: Person;
+    @ManyToOne(()=>Person, (person)=>person.getTasks, { nullable: false })
+    private person: Person;
 
     @Column()
-    done: boolean;
+    private done: boolean;
 
+    getPerson() {return this.person;}
+    getTask() {return this.task;}
 }
