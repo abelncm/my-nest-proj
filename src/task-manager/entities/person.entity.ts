@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { City } from "./city.entity";
 import { ParentalRelationship } from "./parental-relationship.entity";
 import { PersonHasTask } from "./person-has-task.entity";
@@ -8,28 +8,28 @@ import { PersonHasTask } from "./person-has-task.entity";
 export class Person {
 
     @PrimaryGeneratedColumn()
-    private id: number;
+    id: number;
 
     @Column()
-    private firstName: string;
+    firstName: string;
 
     @Column()
-    private lastName: string;
+    lastName: string;
 
     @Column()
-    private phone: string;
+    phone: string;
     
-    @ManyToOne(() => City, (city) => city.getPeople, { nullable: false, eager:true })
-    private city: City;
+    @ManyToOne(() => City, (city) => city.people, { nullable: false, eager:true })
+    city: City;
 
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.getParent)
-    private parents: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.parent)
+    parents: Array<ParentalRelationship>;
     
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.getChild)
-    private children: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.child)
+    children: Array<ParentalRelationship>;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.getPerson)
-    private tasks: Array<PersonHasTask>;
+    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.person, {cascade:true})
+    tasks: Promise<PersonHasTask[]>;
 
     constructor(firstName:string, lastName:string, phone:string, city:City) {
         this.updateName(firstName, lastName);

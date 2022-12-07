@@ -5,13 +5,13 @@ import { Person } from "./person.entity";
 export class ParentalRelationship {
 
     @PrimaryGeneratedColumn()
-    private id: number;
+    id: number;
 
     @ManyToOne(()=>Person, (person)=>person.getParents, { nullable: false })
-    private parent: Person;
+    parent: Person;
     
     @ManyToOne(()=>Person, (person)=>person.getChildren, { nullable: false })
-    private child: Person;
+    child: Person;
 
     getParent() {
         return this.parent;

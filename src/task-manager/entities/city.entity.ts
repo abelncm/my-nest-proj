@@ -8,15 +8,15 @@ export class City {
 
     @ApiProperty()
     @PrimaryGeneratedColumn()
-    private id: number;
+    id: number;
     
     @ApiProperty()
     @Column()
-    private name: string;
+    name: string;
     
     @ApiProperty()
-    @OneToMany(() => Person, (person) => person.getCity)
-    private people: Array<Person>;
+    @OneToMany(() => Person, (person) => person.city)
+    people: Array<Person>;
 
     constructor(name: string) {
         this.name=name;

@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person.entity";
 import { Task } from "./task.entity";
@@ -6,17 +7,21 @@ import { Task } from "./task.entity";
 export class PersonHasTask {
 
     @PrimaryGeneratedColumn()
-    private id: number;
+    id: number;
 
-    @ManyToOne(()=>Task, (task)=>task.getPeople, { nullable: false })
-    private task: Task;
+    @ManyToOne(()=>Task, (task)=>task.people, { nullable: false, eager:true })
+    task: Task;
     
-    @ManyToOne(()=>Person, (person)=>person.getTasks, { nullable: false })
-    private person: Person;
+    @ManyToOne(()=>Person, (person)=>person.tasks, { nullable: false })
+    person: Person;
 
     @Column()
-    private done: boolean;
+    done: boolean = false;
 
-    getPerson() {return this.person;}
-    getTask() {return this.task;}
+    getPerson() {
+        return this.person;
+    }
+    getTask() {
+        return this.task;
+    }
 }

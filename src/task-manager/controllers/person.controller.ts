@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { PersonAddTasksDto } from '../dto/person-add-tasks.dto';
 import { PersonDto } from '../dto/person.dto';
 import { Person } from '../entities/person.entity';
 import { PersonService } from '../services/person.service';
@@ -8,7 +9,7 @@ import { PersonService } from '../services/person.service';
 @ApiTags('Person')
 @Controller('persons')
 export class PersonController {
-  
+
   constructor(private readonly personService: PersonService) { }
 
   @Post()
@@ -25,6 +26,16 @@ export class PersonController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.personService.findOne(id);
+  }
+
+  @Get(':id/tasks')
+  getPersonTasks(@Param('id') id: number) {
+    return this.personService.getTasks(id);
+  }
+
+  @Put(':id/tasks')
+  addTasks(@Param('id') id: number, @Body() addTasksDto: PersonAddTasksDto) {
+    return this.personService.addTasks(id, addTasksDto.tasks);
   }
 
   @Put(':id')

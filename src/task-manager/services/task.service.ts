@@ -5,6 +5,7 @@ import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
 import { TaskDto } from '../dto/task.dto';
 import { Task } from '../entities/task.entity';
+import { NotFoundException } from '../exceptions/not-found.exception';
 
 @Injectable()
 export class TaskService {
@@ -23,8 +24,13 @@ export class TaskService {
     return paginate(query, this.taskRepository, paginateDefaults);
   }
 
-  findOne(id: number) {
-    return this.taskRepository.findOneBy(<any>{id: id});
+  async findOne(id: number) {
+    const task = await this.taskRepository.findOneBy({ id: id });
+
+    if (!task)
+      throw new NotFoundException(`Task with id ${id} not found!`);
+
+    return task;
   }
 
   async update(id: number, updateTaskDto: TaskDto) {
