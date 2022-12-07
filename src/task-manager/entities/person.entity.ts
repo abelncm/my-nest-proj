@@ -37,6 +37,10 @@ export class Person {
         this.movedToCity(city);
     }
 
+    getFullname() {
+        return `${this.firstName} ${this.lastName}`;
+    }
+
     getCity() {
         return this.city;
     }

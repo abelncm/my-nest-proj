@@ -1,9 +1,10 @@
 import { Exclude } from "class-transformer";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person.entity";
 import { Task } from "./task.entity";
 
 @Entity()
+@Index(["task", "person"], { unique: true })
 export class PersonHasTask {
 
     @PrimaryGeneratedColumn()
