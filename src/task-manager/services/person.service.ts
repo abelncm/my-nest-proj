@@ -76,7 +76,7 @@ export class PersonService {
 
     await this.findOne(personId);
 
-    const tasksToDeleteList: Array<PersonHasTask> = await this.personTasksRepository.find({
+    const tasksToDeleteList: Array<PersonHasTask> = await this.personTasksRepository.find(<any>{
       where: {
         person: {id: personId},
         task: {id: In(taskIdList)}
@@ -85,14 +85,14 @@ export class PersonService {
 
     await this.personTasksRepository.remove(tasksToDeleteList);
 
-    return this.personTasksRepository.find({
+    return this.personTasksRepository.find(<any>{
       where: {person:{id:personId}}
     });
 
   }
 
   async checkDoingTask(person: Person, task: Task) {
-    const isDoingTask = await this.personTasksRepository.exist({
+    const isDoingTask = await this.personTasksRepository.exist(<any>{
       where: {
         person: {id: person.getId()},
         task: {id: task.getId()}
