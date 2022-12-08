@@ -121,4 +121,17 @@ export class PersonService {
     return savedPerson.getTasks();
     
   }
+
+  async completeTasks(personId:number, taskIdList: Array<number>) {
+    const person: Person = await this.findOne(personId);
+
+    for(const taskId of taskIdList) {
+      const task: Task = await this.taskService.findOne(taskId);
+
+      await person.completeTask(task);
+    }
+
+    const savedPerson: Person = await this.personRepository.save(person);
+    return savedPerson.getTasks();
+  }
 }

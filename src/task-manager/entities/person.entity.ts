@@ -51,6 +51,12 @@ export class Person {
         (await this.tasks).push(personTasks);
     }
 
+    async removeTask(task: Task) {
+        let personTasks: Array<PersonHasTask> = await this.tasks;
+        const remainingTasks: Array<PersonHasTask> = personTasks.filter(personTask => personTask.getTask().getId() != task.getId());
+        personTasks=remainingTasks;
+    }
+
     async completeTask(task: Task) {
         const foundTask: PersonHasTask = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
 

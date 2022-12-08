@@ -38,6 +38,11 @@ export class PersonController {
     return this.personService.addTasks(id, addTasksDto.getTasks());
   }
 
+  @Put(':id/tasks/done')
+  markTasksAsDone(@Param('id') id: number, @Body() doneTasksDto: PersonTasksDto) {
+    return this.personService.completeTasks(id, doneTasksDto.getTasks());
+  }
+
   @Delete(':id/tasks')
   deleteTasks(@Param('id') id: number, @Body() deleteTasksDto: PersonTasksDto) {
     return this.personService.deleteTasks(id, deleteTasksDto.getTasks());
