@@ -24,4 +24,12 @@ export class PersonHasTask {
         this.person=person;
         this.task=task;
     }
+
+    getTask() {
+        return this.task;
+    }
+
+    completed() {
+        this.done=true;
+    }
 }

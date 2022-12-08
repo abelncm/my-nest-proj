@@ -19,20 +19,20 @@ export class Person {
 
     @Column()
     private phone: string;
-    
-    @ManyToOne(() => City, (city) => city['people'], { nullable: false, eager:true })
+
+    @ManyToOne(() => City, (city) => city['people'], { nullable: false, eager: true })
     private city: City;
 
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship['parent'])
+    @OneToMany(() => ParentalRelationship, (relationship) => relationship['parent'])
     private parents: Array<ParentalRelationship>;
-    
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship['child'])
+
+    @OneToMany(() => ParentalRelationship, (relationship) => relationship['child'])
     private children: Array<ParentalRelationship>;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask['person'], {cascade:true})
+    @OneToMany(() => PersonHasTask, (personTask) => personTask['person'], { cascade: true })
     private tasks: Promise<Array<PersonHasTask>>;
 
-    constructor(firstName:string, lastName:string, phone:string, city:City) {
+    constructor(firstName: string, lastName: string, phone: string, city: City) {
         this.updateName(firstName, lastName);
         this.updatePhone(phone);
         this.changeAddress(city);
@@ -51,21 +51,29 @@ export class Person {
         (await this.tasks).push(personTasks);
     }
 
+    async completeTask(task: Task) {
+        const foundTask: PersonHasTask = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
+
+        if (!foundTask)
+            throw new Error(`The task ${task.getTitle()} was not added to ${this.getFullName()}`);
+
+        foundTask.completed();
+    }
 
     getFullName() {
         return `${this.firstName} ${this.lastName}`;
     }
-    
-    updateName(firstName:string, lastName:string){
-        this.firstName=firstName;
-        this.lastName=lastName;
+
+    updateName(firstName: string, lastName: string) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    updatePhone(phone:string) {
-        this.phone=phone;
+    updatePhone(phone: string) {
+        this.phone = phone;
     }
 
     changeAddress(city: City) {
-        this.city=city;
+        this.city = city;
     }
 }
