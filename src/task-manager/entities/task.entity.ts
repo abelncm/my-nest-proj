@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { PersonHasTask } from "./person-has-task.entity";
+import { TaskAssignment } from "./person-has-task.entity";
 
 
 @Entity()
@@ -12,8 +12,8 @@ export class Task {
     @Column()
     private title: string;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask['task'])
-    private people: Array<PersonHasTask>;
+    @OneToMany(()=>TaskAssignment, (personTask)=>personTask['task'])
+    private people: Array<TaskAssignment>;
 
 
     constructor(title:string) {

@@ -1,7 +1,7 @@
 import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { City } from "./city.entity";
 import { ParentalRelationship } from "./parental-relationship.entity";
-import { PersonHasTask } from "./person-has-task.entity";
+import { TaskAssignment } from "./person-has-task.entity";
 import { Task } from "./task.entity";
 
 
@@ -29,8 +29,8 @@ export class Person {
     @OneToMany(() => ParentalRelationship, (relationship) => relationship['child'])
     private children: Array<ParentalRelationship>;
 
-    @OneToMany(() => PersonHasTask, (personTask) => personTask['person'], { cascade: true })
-    private tasks: Promise<Array<PersonHasTask>>;
+    @OneToMany(() => TaskAssignment, (personTask) => personTask['person'], { cascade: true })
+    private tasks: Promise<Array<TaskAssignment>>;
 
     constructor(firstName: string, lastName: string, phone: string, city: City) {
         this.updateName(firstName, lastName);
@@ -47,18 +47,18 @@ export class Person {
     }
 
     async addTask(task: Task) {
-        const personTasks = new PersonHasTask(this, task);
+        const personTasks = new TaskAssignment(this, task);
         (await this.tasks).push(personTasks);
     }
 
     async removeTask(task: Task) {
-        let personTasks: Array<PersonHasTask> = await this.tasks;
-        const remainingTasks: Array<PersonHasTask> = personTasks.filter(personTask => personTask.getTask().getId() != task.getId());
+        let personTasks: Array<TaskAssignment> = await this.tasks;
+        const remainingTasks: Array<TaskAssignment> = personTasks.filter(personTask => personTask.getTask().getId() != task.getId());
         personTasks=remainingTasks;
     }
 
     async completeTask(task: Task) {
-        const foundTask: PersonHasTask = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
+        const foundTask: TaskAssignment = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
 
         if (!foundTask)
             throw new Error(`The task ${task.getTitle()} was not added to ${this.getFullName()}`);

@@ -4,7 +4,7 @@ import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { In, Repository } from 'typeorm';
 import { PersonDto } from '../dtos/person.dto';
-import { PersonHasTask } from '../entities/person-has-task.entity';
+import { TaskAssignment } from '../entities/person-has-task.entity';
 import { Person } from '../entities/person.entity';
 import { Task } from '../entities/task.entity';
 import { ConflictException } from '../exceptions/conflict.exception';
@@ -18,8 +18,8 @@ export class PersonService {
   constructor(
     @InjectRepository(Person)
     private personRepository: Repository<Person>,
-    @InjectRepository(PersonHasTask)
-    private personTasksRepository: Repository<PersonHasTask>,
+    @InjectRepository(TaskAssignment)
+    private personTasksRepository: Repository<TaskAssignment>,
     private cityService: CityService,
     private taskService: TaskService
   ) { }
@@ -76,7 +76,7 @@ export class PersonService {
 
     await this.findOne(personId);
 
-    const tasksToDeleteList: Array<PersonHasTask> = await this.personTasksRepository.find(<any>{
+    const tasksToDeleteList: Array<TaskAssignment> = await this.personTasksRepository.find(<any>{
       where: {
         person: {id: personId},
         task: {id: In(taskIdList)}

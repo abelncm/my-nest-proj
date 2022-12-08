@@ -6,7 +6,7 @@ import { Person } from './entities/person.entity';
 import { City } from './entities/city.entity';
 import { ParentalRelationship } from './entities/parental-relationship.entity';
 import { Task } from './entities/task.entity';
-import { PersonHasTask } from './entities/person-has-task.entity';
+import { TaskAssignment } from './entities/person-has-task.entity';
 import { TaskController } from './controllers/task.controller';
 import { TaskService } from './services/task.service';
 import { PersonService } from './services/person.service';
@@ -18,7 +18,7 @@ import { PersonController } from './controllers/person.controller';
     Person, 
     ParentalRelationship,
     Task,
-    PersonHasTask
+    TaskAssignment
   ])],
   controllers: [CityController, TaskController, PersonController],
   providers: [CityService, TaskService, PersonService]

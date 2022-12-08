@@ -3,9 +3,9 @@ import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeor
 import { Person } from "./person.entity";
 import { Task } from "./task.entity";
 
-@Entity()
+@Entity("person_has_task")
 @Index(["task", "person"], { unique: true })
-export class PersonHasTask {
+export class TaskAssignment {
 
     @PrimaryGeneratedColumn()
     private id: number;
@@ -31,5 +31,9 @@ export class PersonHasTask {
 
     completed() {
         this.done=true;
+    }
+
+    isCompleted(): boolean {
+        return this.done;
     }
 }
