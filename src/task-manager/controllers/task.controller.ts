@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { TaskDto } from '../dto/task.dto';
+import { TaskDto } from '../dtos/task.dto';
 import { TaskService } from '../services/task.service';
 
 @ApiTags('Task')

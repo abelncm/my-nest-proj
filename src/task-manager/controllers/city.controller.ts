@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CityService } from '../services/city.service';
-import { CityDto } from '../dto/city.dto';
+import { CityDto } from '../dtos/city.dto';
 import { City } from '../entities/city.entity';
 
 @ApiTags('City')

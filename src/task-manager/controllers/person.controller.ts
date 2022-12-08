@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { PersonAddTasksDto } from '../dto/person-add-tasks.dto';
-import { PersonDto } from '../dto/person.dto';
+import { PersonTasksDto } from '../dtos/person-tasks.dto';
+import { PersonDto } from '../dtos/person.dto';
 import { Person } from '../entities/person.entity';
 import { PersonService } from '../services/person.service';
 
@@ -34,13 +34,13 @@ export class PersonController {
   }
 
   @Put(':id/tasks')
-  addTasks(@Param('id') id: number, @Body() addTasksDto: PersonAddTasksDto) {
-    return this.personService.addTasks(id, addTasksDto.tasks);
+  addTasks(@Param('id') id: number, @Body() addTasksDto: PersonTasksDto) {
+    return this.personService.addTasks(id, addTasksDto.getTasks());
   }
 
   @Delete(':id/tasks')
-  deleteTasks(@Param('id') id: number, @Body() deleteTasksDto: PersonAddTasksDto) {
-    return this.personService.deleteTasks(id, deleteTasksDto.tasks);
+  deleteTasks(@Param('id') id: number, @Body() deleteTasksDto: PersonTasksDto) {
+    return this.personService.deleteTasks(id, deleteTasksDto.getTasks());
   }
 
   @Put(':id')

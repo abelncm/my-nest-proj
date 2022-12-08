@@ -1,3 +1,4 @@
+import { AutomapperModule } from '@automapper/nestjs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
@@ -15,17 +16,20 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
       port: 3306,
       username: 'root',
       password: 'nemo',
-      database: 'nest_tasks',
+      database: 'new_bd',
       autoLoadEntities: true,
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy()
     }),
-    FilemanagerModule, 
+    // AutomapperModule.forRoot({
+    //   strategyInitializer: classes(),
+    // }),
+    FilemanagerModule,
     TaskManagerModule
   ],
   controllers: [AppController],
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 }

@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
-import { PersonsController } from 'src/person/person.controller';
 import { In, Repository } from 'typeorm';
-import { PersonDto } from '../dto/person.dto';
-import { City } from '../entities/city.entity';
+import { PersonDto } from '../dtos/person.dto';
 import { PersonHasTask } from '../entities/person-has-task.entity';
 import { Person } from '../entities/person.entity';
 import { Task } from '../entities/task.entity';
@@ -44,7 +42,7 @@ export class PersonService {
   }
 
   async findOne(id: number) {
-    const person = await this.personRepository.findOneBy({ id: id });
+    const person = await this.personRepository.findOneBy(<any>{ id: id });
 
     if (!person)
       throw new NotFoundException(`Person with id ${id} not found!`);
@@ -59,7 +57,7 @@ export class PersonService {
 
     person.updateName(updatePersonDto.getFirstName(), updatePersonDto.getLastName());
     person.updatePhone(updatePersonDto.getPhone());
-    person.movedToCity(city);
+    person.changeAddress(city);
 
     return this.personRepository.save(person);
 
@@ -71,7 +69,7 @@ export class PersonService {
 
   async getTasks(personId: number) {
     const person: Person = await this.findOne(personId);
-    return person.tasks;
+    return person.getTasks();
   }
 
   async deleteTasks(personId:number, taskIdList: Array<number>) {
@@ -96,14 +94,14 @@ export class PersonService {
   async checkDoingTask(person: Person, task: Task) {
     const isDoingTask = await this.personTasksRepository.exist({
       where: {
-        person: {id: person.id},
-        task: {id: task.id}
+        person: {id: person.getId()},
+        task: {id: task.getId()}
       }
     });
 
     if(isDoingTask) {
-      const fullname = person.getFullname();
-      throw new ConflictException(`${fullname} is already doing the task: ${task.title}`);
+      const fullname = person.getFullName();
+      throw new ConflictException(`${fullname} is already doing the task: ${task.getTitle()}`);
     }
   }
   
@@ -113,24 +111,13 @@ export class PersonService {
 
     for (const taskId of taskIdList) {
       const task = await this.taskService.findOne(taskId);
-
-      await this.checkDoingTask(person, task);
-      
-      const personTasks = new PersonHasTask();
-      personTasks.person = person;
-      personTasks.task = task;
-
-      (await person.tasks).push(personTasks);
+      // await this.checkDoingTask(person, task);
+      person.addTask(task);
     }
 
-    const savedPersonTasks = await this.personRepository.save(person);
+    const savedPerson = await this.personRepository.save(person);
     
-    // const savedTasks: PersonHasTask[] = await savedPersonTasks.tasks;
-    // return savedTasks;
-    
-    return this.personTasksRepository.find({
-      where: {person:{id:personId}}
-    });
+    return savedPerson.getTasks();
     
   }
 }

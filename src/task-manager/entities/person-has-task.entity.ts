@@ -4,25 +4,24 @@ import { Person } from "./person.entity";
 import { Task } from "./task.entity";
 
 @Entity()
-@Index(["task", "person"], { unique: true })
+// @Index(["task", "person"], { unique: true })
 export class PersonHasTask {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
 
-    @ManyToOne(()=>Task, (task)=>task.people, { nullable: false, eager:true })
-    task: Task;
+    @ManyToOne(()=>Task, (task)=>task['people'], { nullable: false, eager:true })
+    private task: Task;
     
-    @ManyToOne(()=>Person, (person)=>person.tasks, { nullable: false })
-    person: Person;
+    @Exclude()
+    @ManyToOne(()=>Person, (person)=>person['tasks'], { nullable: false })
+    private person: Person;
 
     @Column()
-    done: boolean = false;
+    private done: boolean = false;
 
-    getPerson() {
-        return this.person;
-    }
-    getTask() {
-        return this.task;
+    constructor(person:Person, task:Task) {
+        this.person=person;
+        this.task=task;
     }
 }

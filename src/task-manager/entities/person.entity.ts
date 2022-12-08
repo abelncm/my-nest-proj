@@ -2,59 +2,58 @@ import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn
 import { City } from "./city.entity";
 import { ParentalRelationship } from "./parental-relationship.entity";
 import { PersonHasTask } from "./person-has-task.entity";
+import { Task } from "./task.entity";
 
 
 @Entity()
 export class Person {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
 
     @Column()
-    firstName: string;
+    private firstName: string;
 
     @Column()
-    lastName: string;
+    private lastName: string;
 
     @Column()
-    phone: string;
+    private phone: string;
     
-    @ManyToOne(() => City, (city) => city.people, { nullable: false, eager:true })
-    city: City;
+    @ManyToOne(() => City, (city) => city['people'], { nullable: false, eager:true })
+    private city: City;
 
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.parent)
-    parents: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship['parent'])
+    private parents: Array<ParentalRelationship>;
     
-    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship.child)
-    children: Array<ParentalRelationship>;
+    @OneToMany(()=>ParentalRelationship, (relationship)=>relationship['child'])
+    private children: Array<ParentalRelationship>;
 
-    @OneToMany(()=>PersonHasTask, (personTask)=>personTask.person, {cascade:true})
-    tasks: Promise<PersonHasTask[]>;
+    @OneToMany(()=>PersonHasTask, (personTask)=>personTask['person'], {cascade:true})
+    private tasks: Promise<Array<PersonHasTask>>;
 
     constructor(firstName:string, lastName:string, phone:string, city:City) {
         this.updateName(firstName, lastName);
         this.updatePhone(phone);
-        this.movedToCity(city);
+        this.changeAddress(city);
     }
 
-    getFullname() {
-        return `${this.firstName} ${this.lastName}`;
-    }
-
-    getCity() {
-        return this.city;
+    getId() {
+        return this.id;
     }
 
     getTasks() {
         return this.tasks;
     }
 
-    getParents() {
-        return this.parents;
+    async addTask(task: Task) {
+        const personTasks = new PersonHasTask(this, task);
+        (await this.tasks).push(personTasks);
     }
 
-    getChildren() {
-        return this.children;
+
+    getFullName() {
+        return `${this.firstName} ${this.lastName}`;
     }
     
     updateName(firstName:string, lastName:string){
@@ -66,7 +65,7 @@ export class Person {
         this.phone=phone;
     }
 
-    movedToCity(city: City) {
+    changeAddress(city: City) {
         this.city=city;
     }
 }

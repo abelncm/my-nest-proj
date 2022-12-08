@@ -8,15 +8,15 @@ export class City {
 
     @ApiProperty()
     @PrimaryGeneratedColumn()
-    id: number;
+    private id: number;
     
     @ApiProperty()
     @Column()
-    name: string;
+    private name: string;
     
     @ApiProperty()
-    @OneToMany(() => Person, (person) => person.city)
-    people: Array<Person>;
+    @OneToMany(() => Person, (person) => person['city'])
+    private people: Array<Person>;
 
     constructor(name: string) {
         this.name=name;
@@ -25,7 +25,5 @@ export class City {
     updateName(name:string) {
         this.name=name;
     }
-
-    getPeople() {return this.people;}    
 
 }

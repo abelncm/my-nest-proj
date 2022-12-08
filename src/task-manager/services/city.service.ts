@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
-import { CityDto } from '../dto/city.dto';
+import { CityDto } from '../dtos/city.dto';
 import { City } from '../entities/city.entity';
 import { NotFoundException } from '../exceptions/not-found.exception';
 

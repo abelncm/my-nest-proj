@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { Repository } from 'typeorm';
-import { TaskDto } from '../dto/task.dto';
+import { TaskDto } from '../dtos/task.dto';
 import { Task } from '../entities/task.entity';
 import { NotFoundException } from '../exceptions/not-found.exception';
 
@@ -25,7 +25,7 @@ export class TaskService {
   }
 
   async findOne(id: number) {
-    const task = await this.taskRepository.findOneBy({ id: id });
+    const task = await this.taskRepository.findOneBy(<any>{ id: id });
 
     if (!task)
       throw new NotFoundException(`Task with id ${id} not found!`);
