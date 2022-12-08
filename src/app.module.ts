@@ -16,7 +16,7 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
       port: 3306,
       username: 'root',
       password: 'nemo',
-      database: 'new_bd',
+      database: 'nest_tasks',
       autoLoadEntities: true,
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy()

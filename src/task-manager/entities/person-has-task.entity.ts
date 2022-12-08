@@ -4,7 +4,7 @@ import { Person } from "./person.entity";
 import { Task } from "./task.entity";
 
 @Entity()
-// @Index(["task", "person"], { unique: true })
+@Index(["task", "person"], { unique: true })
 export class PersonHasTask {
 
     @PrimaryGeneratedColumn()

@@ -111,7 +111,7 @@ export class PersonService {
 
     for (const taskId of taskIdList) {
       const task = await this.taskService.findOne(taskId);
-      // await this.checkDoingTask(person, task);
+      await this.checkDoingTask(person, task);
       person.addTask(task);
     }
 
