@@ -1,7 +1,7 @@
 import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { City } from "./city.entity";
 import { ParentalRelationship } from "./parental-relationship.entity";
-import { TaskAssignment } from "./person-has-task.entity";
+import { TaskAssignment } from "./task-assignment.entity";
 import { Task } from "./task.entity";
 
 
@@ -57,13 +57,23 @@ export class Person {
         personTasks=remainingTasks;
     }
 
-    async completeTask(task: Task) {
+    async markTaskAsCompleted(task: Task) {
         const foundTask: TaskAssignment = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
 
         if (!foundTask)
             throw new Error(`The task ${task.getTitle()} was not added to ${this.getFullName()}`);
 
         foundTask.completed();
+    }
+
+    async getCompletedTasks() {
+        const tasks: Array<TaskAssignment> = await this.tasks;
+        return tasks.filter(task=>task.isCompleted());
+    }
+
+    async getUndoneTasks() {
+        const tasks: Array<TaskAssignment> = await this.tasks;
+        return tasks.filter(task=>!task.isCompleted());
     }
 
     getFullName() {

@@ -40,7 +40,17 @@ export class PersonController {
 
   @Put(':id/tasks/done')
   markTasksAsDone(@Param('id') id: number, @Body() doneTasksDto: PersonTasksDto) {
-    return this.personService.completeTasks(id, doneTasksDto.getTasks());
+    return this.personService.markTasksAsCompleted(id, doneTasksDto.getTasks());
+  }
+
+  @Get(':id/tasks/done')
+  getCompletedTasks(@Param('id') id: number) {
+    return this.personService.getCompletedTasks(id);
+  }
+
+  @Get(':id/tasks/undone')
+  getUndoneTasks(@Param('id') id: number) {
+    return this.personService.getUndoneTasks(id);
   }
 
   @Delete(':id/tasks')

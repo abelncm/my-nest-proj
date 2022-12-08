@@ -4,7 +4,7 @@ import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { In, Repository } from 'typeorm';
 import { PersonDto } from '../dtos/person.dto';
-import { TaskAssignment } from '../entities/person-has-task.entity';
+import { TaskAssignment } from '../entities/task-assignment.entity';
 import { Person } from '../entities/person.entity';
 import { Task } from '../entities/task.entity';
 import { ConflictException } from '../exceptions/conflict.exception';
@@ -122,16 +122,26 @@ export class PersonService {
     
   }
 
-  async completeTasks(personId:number, taskIdList: Array<number>) {
+  async markTasksAsCompleted(personId:number, taskIdList: Array<number>) {
     const person: Person = await this.findOne(personId);
 
     for(const taskId of taskIdList) {
       const task: Task = await this.taskService.findOne(taskId);
 
-      await person.completeTask(task);
+      await person.markTaskAsCompleted(task);
     }
 
     const savedPerson: Person = await this.personRepository.save(person);
     return savedPerson.getTasks();
+  }
+
+  async getCompletedTasks(personId: number) {
+    const person: Person = await this.findOne(personId);
+    return person.getCompletedTasks();
+  }
+
+  async getUndoneTasks(personId: number) {
+    const person: Person = await this.findOne(personId);
+    return person.getUndoneTasks();
   }
 }

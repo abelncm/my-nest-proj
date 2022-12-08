@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { TaskAssignment } from "./person-has-task.entity";
+import { TaskAssignment } from "./task-assignment.entity";
 
 
 @Entity()

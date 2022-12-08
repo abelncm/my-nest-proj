@@ -34,6 +34,6 @@ export class TaskAssignment {
     }
 
     isCompleted(): boolean {
-        return this.done;
+        return this.done==true;
     }
 }
