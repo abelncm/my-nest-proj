@@ -1,3 +1,4 @@
+import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -22,9 +23,9 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
       // logging: true,
       namingStrategy: new SnakeNamingStrategy()
     }),
-    // AutomapperModule.forRoot({
-    //   strategyInitializer: classes(),
-    // }),
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
     FilemanagerModule,
     TaskManagerModule
   ],
