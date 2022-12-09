@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { City } from "./city.entity";
 import { ParentalRelationship } from "./parental-relationship.entity";
 import { TaskAssignment } from "./task-assignment.entity";
@@ -34,7 +34,7 @@ export class Person {
 
     constructor(firstName: string, lastName: string, phone: string, city: City) {
         this.updateName(firstName, lastName);
-        this.updatePhone(phone);
+        this.updateContact(phone);
         this.changeAddress(city);
     }
 
@@ -42,22 +42,23 @@ export class Person {
         return this.id;
     }
 
-    getTasks() {
+    getAssignedTasks() {
         return this.tasks;
     }
 
-    async addTask(task: Task) {
+    async assignTask(task: Task) {
         const personTasks = new TaskAssignment(this, task);
         (await this.tasks).push(personTasks);
     }
 
-    async removeTask(task: Task) {
-        let personTasks: Array<TaskAssignment> = await this.tasks;
-        const remainingTasks: Array<TaskAssignment> = personTasks.filter(personTask => personTask.getTask().getId() != task.getId());
-        personTasks=remainingTasks;
+    async unassignTask(task: Task) {
+        let assignedTasks: Array<TaskAssignment> = (await this.tasks);
+        const remainingTasks: Array<TaskAssignment> = assignedTasks.filter(
+            assignedTask => assignedTask.getTask().getId() != task.getId());
+        this.tasks=Promise.resolve(remainingTasks);
     }
 
-    async markTaskAsCompleted(task: Task) {
+    async markTaskAsComplete(task: Task) {
         const foundTask: TaskAssignment = (await this.tasks).find(personTask => personTask.getTask().getId() == task.getId());
 
         if (!foundTask)
@@ -66,12 +67,12 @@ export class Person {
         foundTask.completed();
     }
 
-    async getCompletedTasks() {
+    async getCompleteTasks() {
         const tasks: Array<TaskAssignment> = await this.tasks;
         return tasks.filter(task=>task.isCompleted());
     }
 
-    async getUndoneTasks() {
+    async getIncompleteTasks() {
         const tasks: Array<TaskAssignment> = await this.tasks;
         return tasks.filter(task=>!task.isCompleted());
     }
@@ -85,7 +86,7 @@ export class Person {
         this.lastName = lastName;
     }
 
-    updatePhone(phone: string) {
+    updateContact(phone: string) {
         this.phone = phone;
     }
 

@@ -30,32 +30,32 @@ export class PersonController {
 
   @Get(':id/tasks')
   getPersonTasks(@Param('id') id: number) {
-    return this.personService.getTasks(id);
+    return this.personService.getPersonAssignedTasks(id);
   }
 
   @Put(':id/tasks')
-  addTasks(@Param('id') id: number, @Body() addTasksDto: PersonTasksDto) {
-    return this.personService.addTasks(id, addTasksDto.getTasks());
+  addTasksToPerson(@Param('id') id: number, @Body() addTasksDto: PersonTasksDto) {
+    return this.personService.assignTasksToPerson(id, addTasksDto.getTasks());
   }
 
   @Put(':id/tasks/done')
-  markTasksAsDone(@Param('id') id: number, @Body() doneTasksDto: PersonTasksDto) {
-    return this.personService.markTasksAsCompleted(id, doneTasksDto.getTasks());
+  markTasksAsComplete(@Param('id') id: number, @Body() doneTasksDto: PersonTasksDto) {
+    return this.personService.markTasksAsComplete(id, doneTasksDto.getTasks());
   }
 
   @Get(':id/tasks/done')
-  getCompletedTasks(@Param('id') id: number) {
-    return this.personService.getCompletedTasks(id);
+  getCompleteTasks(@Param('id') id: number) {
+    return this.personService.getCompleteTasks(id);
   }
 
   @Get(':id/tasks/undone')
-  getUndoneTasks(@Param('id') id: number) {
-    return this.personService.getUndoneTasks(id);
+  getIncompleteTasks(@Param('id') id: number) {
+    return this.personService.getIncompleteTasks(id);
   }
 
   @Delete(':id/tasks')
   deleteTasks(@Param('id') id: number, @Body() deleteTasksDto: PersonTasksDto) {
-    return this.personService.deleteTasks(id, deleteTasksDto.getTasks());
+    return this.personService.unassignTasksFromPerson(id, deleteTasksDto.getTasks());
   }
 
   @Put(':id')

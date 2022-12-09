@@ -19,6 +19,7 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
       database: 'nest_tasks',
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
       namingStrategy: new SnakeNamingStrategy()
     }),
     // AutomapperModule.forRoot({

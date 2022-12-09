@@ -4,8 +4,8 @@ import { paginate, PaginateQuery } from 'nestjs-paginate';
 import paginateDefaults from 'src/config/pagination/defaults';
 import { In, Repository } from 'typeorm';
 import { PersonDto } from '../dtos/person.dto';
-import { TaskAssignment } from '../entities/task-assignment.entity';
 import { Person } from '../entities/person.entity';
+import { TaskAssignment } from '../entities/task-assignment.entity';
 import { Task } from '../entities/task.entity';
 import { ConflictException } from '../exceptions/conflict.exception';
 import { NotFoundException } from '../exceptions/not-found.exception';
@@ -18,8 +18,6 @@ export class PersonService {
   constructor(
     @InjectRepository(Person)
     private personRepository: Repository<Person>,
-    @InjectRepository(TaskAssignment)
-    private personTasksRepository: Repository<TaskAssignment>,
     private cityService: CityService,
     private taskService: TaskService
   ) { }
@@ -56,7 +54,7 @@ export class PersonService {
     const city = await this.cityService.findOne(updatePersonDto.getCityId());
 
     person.updateName(updatePersonDto.getFirstName(), updatePersonDto.getLastName());
-    person.updatePhone(updatePersonDto.getPhone());
+    person.updateContact(updatePersonDto.getPhone());
     person.changeAddress(city);
 
     return this.personRepository.save(person);
@@ -67,81 +65,77 @@ export class PersonService {
     this.personRepository.delete(id);
   }
 
-  async getTasks(personId: number) {
+  async getPersonAssignedTasks(personId: number) {
     const person: Person = await this.findOne(personId);
-    return person.getTasks();
+    return person.getAssignedTasks();
   }
 
-  async deleteTasks(personId:number, taskIdList: Array<number>) {
+  async unassignTasksFromPerson(personId:number, taskIdList: Array<number>) {
+    const person:Person = await this.findOne(personId);
 
-    await this.findOne(personId);
-
-    const tasksToDeleteList: Array<TaskAssignment> = await this.personTasksRepository.find(<any>{
-      where: {
-        person: {id: personId},
-        task: {id: In(taskIdList)}
-      }
-    });
-
-    await this.personTasksRepository.remove(tasksToDeleteList);
-
-    return this.personTasksRepository.find(<any>{
-      where: {person:{id:personId}}
-    });
-
-  }
-
-  async checkDoingTask(person: Person, task: Task) {
-    const isDoingTask = await this.personTasksRepository.exist(<any>{
-      where: {
-        person: {id: person.getId()},
-        task: {id: task.getId()}
-      }
-    });
-
-    if(isDoingTask) {
-      const fullname = person.getFullName();
-      throw new ConflictException(`${fullname} is already doing the task: ${task.getTitle()}`);
+    for(const taskId of taskIdList) {
+      const task: Task = await this.taskService.findOne(taskId);
+      await person.unassignTask(task);
     }
+
+    // console.log(person.getTasks());
+
+    const savedPerson: Person = await this.personRepository.save(person);
+    return savedPerson.getAssignedTasks();
   }
+
+  // async checkDoingTask(person: Person, task: Task) {
+  //   const isDoingTask = await this.personTasksRepository.exist(<any>{
+  //     where: {
+  //       person: {id: person.getId()},
+  //       task: {id: task.getId()}
+  //     }
+  //   });
+
+  //   if(isDoingTask) {
+  //     const fullname = person.getFullName();
+  //     throw new ConflictException(`${fullname} is already doing the task: ${task.getTitle()}`);
+  //   }
+  // }
   
-  async addTasks(personId:number, taskIdList: Array<number>) {
+  async assignTasksToPerson(personId:number, taskIdList: Array<number>) {
     
     const person = await this.findOne(personId);
 
     for (const taskId of taskIdList) {
       const task = await this.taskService.findOne(taskId);
-      await this.checkDoingTask(person, task);
+      // await this.checkDoingTask(person, task);
       
-      person.addTask(task);
+      await person.assignTask(task);
     }
+    // console.log(person.getTasks());
 
     const savedPerson = await this.personRepository.save(person);
     
-    return savedPerson.getTasks();
+    return savedPerson.getAssignedTasks();
     
   }
 
-  async markTasksAsCompleted(personId:number, taskIdList: Array<number>) {
+  async markTasksAsComplete(personId:number, taskIdList: Array<number>) {
     const person: Person = await this.findOne(personId);
 
     for(const taskId of taskIdList) {
       const task: Task = await this.taskService.findOne(taskId);
 
-      await person.markTaskAsCompleted(task);
+      await person.markTaskAsComplete(task);
     }
 
     const savedPerson: Person = await this.personRepository.save(person);
-    return savedPerson.getTasks();
+    return savedPerson.getAssignedTasks();
   }
 
-  async getCompletedTasks(personId: number) {
+  async getCompleteTasks(personId: number) {
     const person: Person = await this.findOne(personId);
-    return person.getCompletedTasks();
+    return person.getCompleteTasks();
   }
 
-  async getUndoneTasks(personId: number) {
+  async getIncompleteTasks(personId: number) {
     const person: Person = await this.findOne(personId);
-    return person.getUndoneTasks();
+    return person.getIncompleteTasks();
   }
 }

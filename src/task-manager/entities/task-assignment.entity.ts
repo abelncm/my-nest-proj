@@ -14,7 +14,7 @@ export class TaskAssignment {
     private task: Task;
     
     @Exclude()
-    @ManyToOne(()=>Person, (person)=>person['tasks'], { nullable: false })
+    @ManyToOne(()=>Person, (person)=>person['tasks'], { nullable: false, orphanedRowAction: "delete" })
     private person: Person;
 
     @Column()
