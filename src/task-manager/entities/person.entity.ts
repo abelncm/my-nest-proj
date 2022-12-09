@@ -47,6 +47,10 @@ export class Person {
     }
 
     async assignTask(task: Task) {
+
+        // verify that task is not already assigned
+        // if already assigned throw an exception error
+
         const personTasks = new TaskAssignment(this, task);
         (await this.tasks).push(personTasks);
     }
